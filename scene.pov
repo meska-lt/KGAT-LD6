@@ -7,16 +7,20 @@ background {
 #include "colors.inc"
 #include "textures.inc"
 
-//#declare ImageWidth = 1280;
-//#declare ImageHeight = 720;
+#declare ImageWidth = 1280;
+#declare ImageHeight = 720;
 //#declare ImageWidth = 800;
 //#declare ImageHeight = 480;
-#declare ImageWidth = 640;
-#declare ImageHeight = 480;
+//#declare ImageWidth = 640;
+//#declare ImageHeight = 480;
 
 #declare CupOffsetX = 21;
 #declare CupOffsetY = 0;
 #declare CupOffsetZ = 7;
+
+#declare TeaspoonOffsetX = CupOffsetX + 8;
+#declare TeaspoonOffsetY = CupOffsetY - 1;
+#declare TeaspoonOffsetZ = CupOffsetZ - 8;
 
 #local TableHeight = 40;
 #local TableWidth = 60;
@@ -44,9 +48,8 @@ global_settings {
 // camera ----------------------------------
 camera {
 	angle 75
-//	location  <0, TableHeight+30.0, -30-(90.0*clock)>
-	location  <0, TableHeight+10.0, -10-(90.0*clock)>
-	look_at   <0.0, TableHeight+6.0, 0.0>
+	location  <0, TableHeight+30.0, -30-(90.0*clock)>
+	look_at   <0.0, TableHeight+10.0, 0.0>
 	rotate <0, clock*360, 0>
 	right x*ImageWidth/ImageHeight
 }
@@ -190,16 +193,24 @@ union {
 */
 
 // teaspoon -------------
-sphere {
-  <0, TableHeight+1, 0>,
-  1
-  clipped_by {
-  	sphere {
-  		<0, TableHeight+0.95, 0>
-  		1
-  	}
-  }
-  texture { Chrome_Metal }
+merge {
+	sphere {
+		<TeaspoonOffsetX, TableHeight+TeaspoonOffsetY+1, TeaspoonOffsetZ>,
+		1
+		clipped_by {
+			sphere {
+				<TeaspoonOffsetX, TableHeight+TeaspoonOffsetY+0.95, TeaspoonOffsetZ+0>
+				1
+			}
+		}
+	}
+	box {
+		<TeaspoonOffsetX+0.05, TableHeight+TeaspoonOffsetY+0.8, TeaspoonOffsetZ-0.25>
+		<TeaspoonOffsetX-5.95, TableHeight+TeaspoonOffsetY+1, TeaspoonOffsetZ+0.25>
+	}
+	texture { Chrome_Metal }
+	rotate <0, 0, 8.5>
+	translate <0, -2.75, 0>
 }
 
 // table ----------------
