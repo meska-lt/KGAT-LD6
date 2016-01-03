@@ -9,6 +9,27 @@ background {
 
 #declare ImageWidth = 800;
 #declare ImageHeight = 480;
+//#declare ImageWidth = 640;
+//#declare ImageHeight = 480;
+
+#local H = 40; // table height,
+#local W = 60; // table width in x and z
+#local R = 0.75; // table leg thickness
+
+//------------------------
+#declare Table_01 =
+union{
+	// feet
+	cylinder{<0,0,0>,<0,H,0>, R translate< W/2-R,0,-W/2+R>}
+	cylinder{<0,0,0>,<0,H,0>, R translate< W/2-R,0, W/2-R>}
+	cylinder{<0,0,0>,<0,H,0>, R translate<-W/2+R,0, W/2-R>}
+	cylinder{<0,0,0>,<0,H,0>, R translate<-W/2+R,0,-W/2+R>}
+
+	// seat
+	box{ <-W/2,-0.025,-W/2>,<W/2,0,W/2> translate<0,H,0> }
+
+	pigment{ color rgb<0.75,0.5,0.3>*0.3}
+}
 
 global_settings {
 	assumed_gamma 1.0
@@ -17,8 +38,8 @@ global_settings {
 // camera ----------------------------------
 camera {
 	angle 75
-	location  <0, 12.0, -20.0>
-	look_at   <0.0, 6.0, 0.0>
+	location  <0, H+30.0, -30-(90.0*clock)>
+	look_at   <0.0, H+6.0, 0.0>
 	rotate <0,clock*360,0>
 	right x*ImageWidth/ImageHeight
 }
@@ -72,16 +93,17 @@ fog {
 	turbulence 1.8
 }
 
+// coffee cup ------------------
 union {
 	union {
 		cylinder {
-			<0,0,0>,
-			<0,8,0>,
+			<0,H+0,0>,
+			<0,H+8,0>,
 			4
 			clipped_by {
 				cylinder {
-					<0,1,0>,
-					<0,8,0>,
+					<0,H+1,0>,
+					<0,H+8,0>,
 					3
 					translate<0,1,0> inverse
 				}
@@ -92,8 +114,8 @@ union {
 		}
 
 		cylinder {
-			<0,1,0>,
-			<0,7,0>,
+			<0,H+1,0>,
+			<0,H+7,0>,
 			3
 			pigment {
 				color rgb <0, 0, 0>
@@ -102,32 +124,65 @@ union {
 	}
 
 	torus {
-		2,
+		2.5,
 		0.5
 		rotate <90, 0, 0>
-		translate <-4, 3.75, 0>
+		translate <-4, H+3.75, 0>
 		pigment {
 			color White
 		}
 	}
 }
 
+// cigarette -------------
 union {
-	cylinder {
-		<6,0.5,0>,
-		<9,0.5,0>,
-		0.5
-		pigment {
-			color Orange
+	union {
+		cylinder {
+			<6,H+0.5,0>,
+			<9,H+0.5,0>,
+			0.5
+			open
+			pigment {
+				color Orange
+			}
+		}
+
+		cylinder {
+			<6,H+0.5,0>,
+			<9,H+0.5,0>,
+			0.495
+			pigment {
+				color White
+			}
 		}
 	}
 
-	cylinder {
-		<9,0.5,0>,
-		<16,0.5,0>,
-		0.5
-		pigment {
-			color White
+	union {
+		cylinder {
+			<9,H+0.5,0>,
+			<16,H+0.5,0>,
+			0.5
+			open
+			pigment {
+				color White
+			}
 		}
+
+		cylinder {
+			<9,H+0.5,0>,
+			<16,H+0.5,0>,
+			0.495
+			pigment {
+				color Brown
+			}
+		}
+
 	}
+}
+
+// table ----------------
+object {
+	Table_01
+	rotate<0,0,0>
+	translate<0,0,10>
 }
