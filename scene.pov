@@ -7,32 +7,34 @@ background {
 #include "colors.inc"
 #include "textures.inc"
 
-#declare ImageWidth = 800;
-#declare ImageHeight = 480;
-//#declare ImageWidth = 640;
+//#declare ImageWidth = 1280;
+//#declare ImageHeight = 720;
+//#declare ImageWidth = 800;
 //#declare ImageHeight = 480;
+#declare ImageWidth = 640;
+#declare ImageHeight = 480;
 
 #declare CupOffsetX = 21;
 #declare CupOffsetY = 0;
 #declare CupOffsetZ = 7;
 
-#local H = 40; // table height,
-#local W = 60; // table width in x and z
-#local R = 0.75; // table leg thickness
+#local TableHeight = 40;
+#local TableWidth = 60;
+#local LegThickness = 1.25;
 
 //------------------------
 #declare Table_01 =
 union{
 	// feet
-	cylinder{<0,0,0>,<0,H,0>, R translate< W/2-R,0,-W/2+R>}
-	cylinder{<0,0,0>,<0,H,0>, R translate< W/2-R,0, W/2-R>}
-	cylinder{<0,0,0>,<0,H,0>, R translate<-W/2+R,0, W/2-R>}
-	cylinder{<0,0,0>,<0,H,0>, R translate<-W/2+R,0,-W/2+R>}
+	cylinder{<0, 0, 0>,<0, TableHeight, 0>, LegThickness translate< TableWidth/2-LegThickness*4, 0, -TableWidth/2+LegThickness*4>}
+	cylinder{<0, 0, 0>,<0, TableHeight, 0>, LegThickness translate< TableWidth/2-LegThickness*4, 0,  TableWidth/2-LegThickness*4>}
+	cylinder{<0, 0, 0>,<0, TableHeight, 0>, LegThickness translate<-TableWidth/2+LegThickness*4, 0,  TableWidth/2-LegThickness*4>}
+	cylinder{<0, 0, 0>,<0, TableHeight, 0>, LegThickness translate<-TableWidth/2+LegThickness*4, 0, -TableWidth/2+LegThickness*4>}
 
 	// seat
-	box{ <-W/2,-0.025,-W/2>,<W/2,0,W/2> translate<0,H,0> }
+	box{ <-TableWidth/2, -LegThickness / 5 * 3, -TableWidth/2>,<TableWidth/2, 0, TableWidth/2> translate<0, TableHeight, 0> }
 
-	pigment{ color rgb<0.75,0.5,0.3>*0.3}
+	pigment{ color rgb<0.75, 0.5, 0.3>*0.3}
 }
 
 global_settings {
@@ -42,9 +44,10 @@ global_settings {
 // camera ----------------------------------
 camera {
 	angle 75
-	location  <0, H+30.0, -30-(90.0*clock)>
-	look_at   <0.0, H+6.0, 0.0>
-	rotate <0,clock*360,0>
+//	location  <0, TableHeight+30.0, -30-(90.0*clock)>
+	location  <0, TableHeight+10.0, -10-(90.0*clock)>
+	look_at   <0.0, TableHeight+6.0, 0.0>
+	rotate <0, clock*360, 0>
 	right x*ImageWidth/ImageHeight
 }
 
@@ -101,13 +104,13 @@ fog {
 union {
 	union {
 		cylinder {
-			<CupOffsetX,H+0,CupOffsetZ>,
-			<CupOffsetX,H+8,CupOffsetZ>,
+			<CupOffsetX,TableHeight+0,CupOffsetZ>,
+			<CupOffsetX,TableHeight+8,CupOffsetZ>,
 			4
 			clipped_by {
 				cylinder {
-					<CupOffsetX,H+1,CupOffsetZ>,
-					<CupOffsetX,H+8,CupOffsetZ>,
+					<CupOffsetX,TableHeight+1,CupOffsetZ>,
+					<CupOffsetX,TableHeight+8,CupOffsetZ>,
 					3
 					translate<0,1,0> inverse
 				}
@@ -118,8 +121,8 @@ union {
 		}
 
 		cylinder {
-			<CupOffsetX,H+1,CupOffsetZ>,
-			<CupOffsetX,H+7,CupOffsetZ>,
+			<CupOffsetX,TableHeight+1,CupOffsetZ>,
+			<CupOffsetX,TableHeight+7,CupOffsetZ>,
 			3
 			pigment {
 				color rgb <0, 0, 0>
@@ -131,7 +134,7 @@ union {
 		2.5,
 		0.5
 		rotate <90, 0, 0>
-		translate <CupOffsetX-4, H+3.75, CupOffsetZ>
+		translate <CupOffsetX-4, TableHeight+3.75, CupOffsetZ>
 		pigment {
 			color White
 		}
@@ -139,11 +142,12 @@ union {
 }
 
 // cigarette -------------
+/*
 union {
 	union {
 		cylinder {
-			<6,H+0.5,0>,
-			<9,H+0.5,0>,
+			<6, TableHeight+0.5, 0>,
+			<9, TableHeight+0.5, 0>,
 			0.5
 			open
 			pigment {
@@ -152,8 +156,8 @@ union {
 		}
 
 		cylinder {
-			<6,H+0.5,0>,
-			<9,H+0.5,0>,
+			<6, TableHeight+0.5, 0>,
+			<9, TableHeight+0.5, 0>,
 			0.495
 			pigment {
 				color White
@@ -163,8 +167,8 @@ union {
 
 	union {
 		cylinder {
-			<9,H+0.5,0>,
-			<16,H+0.5,0>,
+			<9, TableHeight+0.5, 0>,
+			<16, TableHeight+0.5, 0>,
 			0.5
 			open
 			pigment {
@@ -173,8 +177,8 @@ union {
 		}
 
 		cylinder {
-			<9,H+0.5,0>,
-			<16,H+0.5,0>,
+			<9, TableHeight+0.5, 0>,
+			<16, TableHeight+0.5, 0>,
 			0.495
 			pigment {
 				color Brown
@@ -183,10 +187,24 @@ union {
 
 	}
 }
+*/
+
+// teaspoon -------------
+sphere {
+  <0, TableHeight+1, 0>,
+  1
+  clipped_by {
+  	sphere {
+  		<0, TableHeight+0.95, 0>
+  		1
+  	}
+  }
+  texture { Chrome_Metal }
+}
 
 // table ----------------
 object {
 	Table_01
-	rotate<0,0,0>
-	translate<0,0,10>
+	rotate<0, 0, 0>
+	translate<0, 0, 10>
 }
