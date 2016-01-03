@@ -12,6 +12,10 @@ background {
 //#declare ImageWidth = 640;
 //#declare ImageHeight = 480;
 
+#declare CupOffsetX = 21;
+#declare CupOffsetY = 0;
+#declare CupOffsetZ = 7;
+
 #local H = 40; // table height,
 #local W = 60; // table width in x and z
 #local R = 0.75; // table leg thickness
@@ -97,13 +101,13 @@ fog {
 union {
 	union {
 		cylinder {
-			<0,H+0,0>,
-			<0,H+8,0>,
+			<CupOffsetX,H+0,CupOffsetZ>,
+			<CupOffsetX,H+8,CupOffsetZ>,
 			4
 			clipped_by {
 				cylinder {
-					<0,H+1,0>,
-					<0,H+8,0>,
+					<CupOffsetX,H+1,CupOffsetZ>,
+					<CupOffsetX,H+8,CupOffsetZ>,
 					3
 					translate<0,1,0> inverse
 				}
@@ -114,8 +118,8 @@ union {
 		}
 
 		cylinder {
-			<0,H+1,0>,
-			<0,H+7,0>,
+			<CupOffsetX,H+1,CupOffsetZ>,
+			<CupOffsetX,H+7,CupOffsetZ>,
 			3
 			pigment {
 				color rgb <0, 0, 0>
@@ -127,7 +131,7 @@ union {
 		2.5,
 		0.5
 		rotate <90, 0, 0>
-		translate <-4, H+3.75, 0>
+		translate <CupOffsetX-4, H+3.75, CupOffsetZ>
 		pigment {
 			color White
 		}
